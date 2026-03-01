@@ -22,6 +22,7 @@ export interface MessengerConfig {
   senderDetailsOnFirstContact: boolean;
   nameTheme: string;
   nameWords?: { adjectives: string[]; nouns: string[] };
+  nameNames?: string[];
   feedRetention: number;
   stuckThreshold: number;
   stuckNotify: boolean;
@@ -151,10 +152,12 @@ export function loadConfig(cwd: string): MessengerConfig {
   };
 
   const nameWords = (merged as Record<string, unknown>).nameWords as { adjectives: string[]; nouns: string[] } | undefined;
+  const nameNames = (merged as Record<string, unknown>).nameNames as string[] | undefined;
 
   const sharedFields = {
     nameTheme: typeof merged.nameTheme === "string" ? merged.nameTheme : DEFAULT_CONFIG.nameTheme,
     nameWords: nameWords && Array.isArray(nameWords.adjectives) && Array.isArray(nameWords.nouns) ? nameWords : undefined,
+    nameNames: Array.isArray(nameNames) ? nameNames : undefined,
     feedRetention: typeof merged.feedRetention === "number" ? merged.feedRetention : DEFAULT_CONFIG.feedRetention,
     stuckThreshold: typeof merged.stuckThreshold === "number" ? merged.stuckThreshold : DEFAULT_CONFIG.stuckThreshold,
     stuckNotify: merged.stuckNotify !== false,

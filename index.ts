@@ -113,7 +113,7 @@ export default function piMessengerExtension(pi: ExtensionAPI) {
     sessionStartedAt: new Date().toISOString(),
   };
 
-  const nameTheme = { theme: config.nameTheme, customWords: config.nameWords };
+  const nameTheme = { theme: config.nameTheme, customWords: config.nameWords, customNames: config.nameNames };
 
   const baseDir = process.env.PI_MESSENGER_DIR || join(homedir(), ".pi/agent/messenger");
   const dirs: Dirs = {

@@ -256,6 +256,7 @@ const MINIMAL_NAMES = [
 export interface NameThemeConfig {
   theme: string;
   customWords?: { adjectives: string[]; nouns: string[] };
+  customNames?: string[];
 }
 
 // =============================================================================
@@ -267,6 +268,11 @@ export function generateMemorableName(themeConfig?: NameThemeConfig): string {
 
   if (themeName === "minimal") {
     return MINIMAL_NAMES[Math.floor(Math.random() * MINIMAL_NAMES.length)];
+  }
+
+  // Custom names list — just pick one at random, no adjective+noun combo
+  if (themeConfig?.customNames && themeConfig.customNames.length > 0) {
+    return themeConfig.customNames[Math.floor(Math.random() * themeConfig.customNames.length)];
   }
 
   let adjectives: string[];
