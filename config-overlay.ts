@@ -85,7 +85,7 @@ export class MessengerConfigOverlay implements Component, Focusable {
   }
 
   render(_width: number): string[] {
-    const w = this.width;
+    const w = _width > 0 ? _width : this.width;
     const innerW = w - 2;
     const lines: string[] = [];
     const cwd = process.cwd();

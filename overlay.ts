@@ -51,7 +51,8 @@ export interface OverlayCallbacks {
 
 export class MessengerOverlay implements Component, Focusable {
   get width(): number {
-    return Math.min(100, Math.max(40, process.stdout.columns ?? 90));
+    // Request up to full terminal width (TUI framework clamps to available space)
+    return process.stdout.columns ?? 90;
   }
   focused = false;
 
@@ -548,7 +549,8 @@ export class MessengerOverlay implements Component, Focusable {
   }
 
   render(_width: number): string[] {
-    const w = this.width;
+    // Use the TUI-provided width (already clamped to terminal), not self-calculated
+    const w = _width > 0 ? _width : this.width;
     const innerW = w - 2;
     const sectionW = innerW - 2;
     const border = (s: string) => this.theme.fg("dim", s);
