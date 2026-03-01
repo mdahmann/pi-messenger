@@ -9,7 +9,7 @@ import { homedir } from "node:os";
 import * as fs from "node:fs";
 import { join } from "node:path";
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
-import type { OverlayHandle, TUI } from "@mariozechner/pi-tui";
+import type { OverlayHandle, OverlayOptions, TUI } from "@mariozechner/pi-tui";
 import { truncateToWidth } from "@mariozechner/pi-tui";
 import { Type, type TUnsafe } from "@sinclair/typebox";
 
@@ -65,6 +65,13 @@ import { runLegacyAgentCleanupMigration } from "./crew/utils/install.js";
 import { getLiveWorkers, onLiveWorkersChanged } from "./crew/live-progress.js";
 import { shutdownAllWorkers } from "./crew/agents.js";
 import { shutdownLobbyWorkers } from "./crew/lobby.js";
+
+const FULLSCREEN_OVERLAY: OverlayOptions = {
+  width: "100%",
+  maxHeight: "100%",
+  anchor: "top-left",
+  margin: 0,
+};
 
 let overlayTui: TUI | null = null;
 let overlayHandle: OverlayHandle | null = null;
@@ -467,7 +474,7 @@ Usage (action-based API - preferred):
           (tui, theme, _keybindings, done) => {
             return new MessengerConfigOverlay(tui, theme, done);
           },
-          { overlay: true }
+          { overlay: true, overlayOptions: FULLSCREEN_OVERLAY }
         );
         return;
       }
@@ -507,6 +514,7 @@ Usage (action-based API - preferred):
         },
         {
           overlay: true,
+          overlayOptions: FULLSCREEN_OVERLAY,
           onHandle: (handle) => {
             overlayHandle = handle;
           },
@@ -838,6 +846,7 @@ Usage (action-based API - preferred):
       },
       {
         overlay: true,
+        overlayOptions: FULLSCREEN_OVERLAY,
         onHandle: (handle) => {
           overlayHandle = handle;
         },
